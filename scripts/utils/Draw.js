@@ -11,6 +11,20 @@ export class Draw {
         this.c.stroke();
         this.c.closePath();
     }
+    Rectangle(position, width, height, color = "black", borderColor, borderWidth = 0) {
+        this.c.beginPath();
+        this.c.fillStyle = color;
+        if (borderColor) {
+            this.c.strokeStyle = borderColor;
+        }
+        this.c.lineWidth = borderWidth;
+        this.c.rect(position.x, position.y, width, height);
+        this.c.fill();
+        if (borderWidth > 0) {
+            this.c.stroke();
+        }
+        this.c.closePath();
+    }
     Circle(position, radius, color = "black", borderColor, borderWidth = 0) {
         this.c.beginPath();
         this.c.fillStyle = color;

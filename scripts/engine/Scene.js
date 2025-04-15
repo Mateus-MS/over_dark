@@ -3,4 +3,7 @@ export class Scene extends Engine {
     constructor(canvas, frameRate = 60) {
         super(canvas, frameRate);
     }
+    Update() {
+        console.log("Scene update");
+    }
 }

@@ -1,5 +1,5 @@
 import { Vector } from "../math/Vector.js";
-import { Draw } from "../utils/Draw.js";
+import { DRAW } from "../test.js";
 import { Mouse } from "./utils/Mouse.js";
 export class Engine {
     constructor(canvas, frameRate = 60) {
@@ -17,11 +17,10 @@ export class Engine {
         // Set up the canvas sie
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        this.Draw = new Draw(this.c);
     }
     StartUpdate() {
         this.updateLoopInterval = setInterval(() => {
-            this.Update();
+            this.UpdateLoop();
         }, 1000 / this.frameRate);
     }
     Update() {
@@ -47,7 +46,7 @@ export class Engine {
         }
         this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.showFPS) {
-            this.Draw.Text("FPS: " + this.LastFPS, new Vector(10, 25));
+            DRAW.Text("FPS: " + this.LastFPS, new Vector(10, 25));
         }
         this.Update();
     }

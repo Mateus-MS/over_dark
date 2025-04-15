@@ -1,7 +1,11 @@
 import { Scene } from "../engine/Scene.js";
+import { GridMap } from "../objects/GridMap.js";
+import { DRAW } from "../test.js";
 
 export class TestScene extends Scene {
     
+    private Map: GridMap = new GridMap(10, 10);
+
     constructor(canvasElement: HTMLCanvasElement) {
         super(canvasElement);
 
@@ -14,6 +18,7 @@ export class TestScene extends Scene {
             console.log("Mouse down");
         }
 
-        this.Draw.Circle(this.Mouse.position, 10, "black");
+        this.Map.render();
+        DRAW.Circle(this.Mouse.position, 10, "black");
     }
 }

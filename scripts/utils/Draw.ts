@@ -17,6 +17,21 @@ export class Draw{
         this.c.closePath();
     }
 
+    public Rectangle(position: Vector, width: number, height: number, color: string = "black", borderColor?: string, borderWidth: number = 0){
+        this.c.beginPath();
+        this.c.fillStyle = color;
+        if(borderColor){
+            this.c.strokeStyle = borderColor;
+        }
+        this.c.lineWidth = borderWidth;
+        this.c.rect(position.x, position.y, width, height);
+        this.c.fill();
+        if(borderWidth > 0){
+            this.c.stroke();
+        }
+        this.c.closePath();
+    }
+
     public Circle(position: Vector, radius: number, color: string = "black", borderColor?: string, borderWidth: number = 0){
         this.c.beginPath();
         this.c.fillStyle = color;

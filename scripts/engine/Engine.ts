@@ -1,16 +1,15 @@
 import { Vector } from "../math/Vector.js"
-import { Draw } from "../utils/Draw.js"
+import { DRAW } from "../test.js";
 import { Mouse } from "./utils/Mouse.js";
 
 export class Engine {
     
     private canvas: HTMLCanvasElement;
-    private c: CanvasRenderingContext2D | null;
+    public c: CanvasRenderingContext2D | null;
     private updateLoopInterval: number | null = null;
 
     public readonly frameRate: number = 60;
 
-    public Draw: Draw;
     public Mouse: Mouse = Mouse.Initiate();
 
     // Variables for FPS display
@@ -27,13 +26,11 @@ export class Engine {
         // Set up the canvas sie
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-
-        this.Draw = new Draw(this.c!);
     }
 
     public StartUpdate(){
         this.updateLoopInterval = setInterval(() => {
-            this.Update();
+            this.UpdateLoop();
         }, 1000 / this.frameRate);
     }
 
@@ -64,7 +61,7 @@ export class Engine {
         this.c!.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         if (this.showFPS){
-            this.Draw.Text("FPS: " + this.LastFPS, new Vector(10, 25));
+            DRAW.Text("FPS: " + this.LastFPS, new Vector(10, 25));
         }
         
         this.Update();
