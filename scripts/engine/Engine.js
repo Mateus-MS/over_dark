@@ -1,11 +1,11 @@
 import { Vector } from "../math/Vector.js";
 import { DRAW } from "../test.js";
-import { Mouse } from "./utils/Mouse.js";
 export class Engine {
     constructor(canvas, frameRate = 60) {
+        this.dimensions = new Vector(window.innerWidth, window.innerHeight);
+        this.halfDimensions = this.dimensions.half;
         this.updateLoopInterval = null;
         this.frameRate = 60;
-        this.Mouse = Mouse.Initiate();
         // Variables for FPS display
         this.LastSecond = undefined;
         this.showFPS = false;
@@ -50,4 +50,5 @@ export class Engine {
         }
         this.Update();
     }
+    Start() { }
 }

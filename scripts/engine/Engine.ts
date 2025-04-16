@@ -1,16 +1,16 @@
 import { Vector } from "../math/Vector.js"
 import { DRAW } from "../test.js";
-import { Mouse } from "./utils/Mouse.js";
 
 export class Engine {
+
+    public dimensions: Vector = new Vector(window.innerWidth, window.innerHeight);
+    public halfDimensions: Vector = this.dimensions.half;
     
     private canvas: HTMLCanvasElement;
     public c: CanvasRenderingContext2D | null;
     private updateLoopInterval: number | null = null;
 
     public readonly frameRate: number = 60;
-
-    public Mouse: Mouse = Mouse.Initiate();
 
     // Variables for FPS display
     private LastSecond: number | undefined = undefined;
@@ -66,4 +66,7 @@ export class Engine {
         
         this.Update();
     }
+
+    public Start(){}
+
 }

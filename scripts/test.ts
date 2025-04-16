@@ -11,7 +11,7 @@ var scene = new TestScene(canvas);
 if (scene.c === null) {
     throw new Error("Canvas context is null");
 }
-export const DRAW = new Draw(scene.c);
+export const DRAW : Draw = new Draw(scene.c);
 
 let a = new Vector(0, 0);
 let b = new Vector(100, 100);
