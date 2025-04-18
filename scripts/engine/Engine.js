@@ -1,9 +1,9 @@
 import { Vector } from "../math/Vector.js";
 import { DRAW } from "../test.js";
+export const SCREENSIZE = new Vector(window.innerWidth, window.innerHeight);
+SCREENSIZE.calcHalf();
 export class Engine {
     constructor(canvas, frameRate = 60) {
-        this.dimensions = new Vector(window.innerWidth, window.innerHeight);
-        this.halfDimensions = this.dimensions.half;
         this.updateLoopInterval = null;
         this.frameRate = 60;
         // Variables for FPS display
@@ -17,6 +17,8 @@ export class Engine {
         // Set up the canvas sie
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
+        this.Start();
+        this.StartUpdate();
     }
     StartUpdate() {
         this.updateLoopInterval = setInterval(() => {

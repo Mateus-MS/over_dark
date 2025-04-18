@@ -1,12 +1,17 @@
 export class Vector {
+    static zero() {
+        return new Vector(0, 0);
+    }
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this.half = undefined;
         this.x = x;
         this.y = y;
     }
-    add(data) {
+    add(data, b = undefined) {
         if (typeof data === "number") {
+            if (b !== undefined) {
+                return new Vector(this.x + data, this.y + b);
+            }
             return new Vector(this.x + data, this.y + data);
         }
         if (data instanceof Vector) {
@@ -50,10 +55,26 @@ export class Vector {
     equalsTo(vector) {
         return this.x === vector.x && this.y === vector.y;
     }
-    get rounded() {
-        return new Vector(Math.round(this.x), Math.round(this.y));
+    calcHalf() {
+        this.half = new Vector(this.x / 2, this.y / 2);
     }
-    get half() {
+    getHalf(save = false) {
+        // If hald is already calculated, return it
+        if (this.half !== undefined) {
+            return this.half;
+        }
+        // If save is true, save the half value then return it
+        if (save) {
+            this.half = new Vector(this.x / 2, this.y / 2);
+            return this.half;
+        }
+        // If save is false, return the half value without saving it
         return new Vector(this.x / 2, this.y / 2);
+    }
+    getFloor() {
+        return new Vector(Math.floor(this.x), Math.floor(this.y));
+    }
+    getRounded() {
+        return new Vector(Math.round(this.x), Math.round(this.y));
     }
 }

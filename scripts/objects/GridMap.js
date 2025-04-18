@@ -1,23 +1,21 @@
-import { Vector } from "../math/Vector.js";
+import { GridCoordinate, ScreenCoordinate } from "../engine/types/Coordinates.js";
 import { DRAW } from "../test.js";
+// BUG: If the gris is ODD, may the cells not be centered in the screen, and the hover effect will be off by half a cell.
 export class GridMap {
     constructor(col, row) {
-        this.size = 60;
-        this.position = new Vector(window.innerWidth / 2, window.innerHeight / 2);
+        this.size = 40;
+        this.offset = new ScreenCoordinate(0, 0);
         this.selectedCell = undefined;
-        this.col = col;
-        this.row = row;
+        this.dimensions = new GridCoordinate(col, row);
+        this.dimensions.calcHalf();
     }
     render() {
-        let startX = this.position.x - (this.col * this.size) / 2;
-        let startY = this.position.y - (this.row * this.size) / 2;
-        for (let i = 0; i < this.col; i++) {
-            for (let j = 0; j < this.row; j++) {
-                DRAW.Rectangle(new Vector(startX + i * this.size, startY + j * this.size), this.size, this.size, "transparent", "black", 3);
+        if (this.dimensions.half === undefined)
+            return;
+        for (let i = -this.dimensions.half.x; i < this.dimensions.half.x; i++) {
+            for (let j = -this.dimensions.half.y; j < this.dimensions.half.y; j++) {
+                DRAW.squareOnGrid(new GridCoordinate(i, j), this.size, "transparent", "black", 3);
             }
         }
-    }
-    convertToGridCoordinates(position, halfDimensions) {
-        return position.subtract(halfDimensions).divide(this.size).rounded;
     }
 }

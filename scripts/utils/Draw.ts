@@ -1,3 +1,5 @@
+import { SCREENSIZE } from "../engine/Engine.js";
+import { GridCoordinate } from "../engine/types/Coordinates.js";
 import { Vector } from "../math/Vector.js"
 
 export class Draw{
@@ -5,6 +7,27 @@ export class Draw{
 
     constructor(context: CanvasRenderingContext2D){
         this.c = context
+    }
+
+    public squareOnGrid(position: GridCoordinate, size: number, color: string = "black", borderColor?: string, borderWidth: number = 0){
+        if(SCREENSIZE.half === undefined) return;
+        
+        this.c.beginPath();
+        this.c.fillStyle = color;
+        if(borderColor){
+            this.c.strokeStyle = borderColor;
+        }
+        this.c.lineWidth = borderWidth;
+
+
+        this.c.rect(position.x * size + SCREENSIZE.half.x, position.y * size + SCREENSIZE.half.y, size, size);
+        
+        
+        this.c.fill();
+        if(borderWidth > 0){
+            this.c.stroke();
+        }
+        this.c.closePath();
     }
 
     public Line(pa: Vector, pb: Vector, color: string = "black", width: number = 1){

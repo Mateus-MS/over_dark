@@ -1,45 +1,51 @@
-import { Vector } from "../../math/Vector.js";
+import { SCREENSIZE } from "../Engine.js";
+import { ScreenCoordinate } from "../types/Coordinates.js";
 
 class Mouse {
-    public position: Vector = new Vector(0, 0);
+    /**
+     * The position is not EXACTLY in screen cordinates. If it was in screen coordinates, top left would be (0, 0).
+     * But in this case, (0, 0) is the center of the screen.
+     */
+    public position: ScreenCoordinate = new ScreenCoordinate(0, 0);
     public isMouseDown: boolean = false;
 
-    private constructor(){
+    public constructor(){
+        this.initiateListeners();
     }
 
-    public static Initiate(): Mouse {
-        let mouse = new Mouse();
-    
+    private initiateListeners() {
         window.addEventListener("mousemove", (e) => {
-            mouse.position.x = e.clientX;
-            mouse.position.y = e.clientY;
-            mouse.OnMouseMove();
+            if(SCREENSIZE.half === undefined) return;
+
+            this.position.x = e.clientX - SCREENSIZE.half.x;
+            this.position.y = e.clientY - SCREENSIZE.half.y;
         });
     
         window.addEventListener("mousedown", (e) => {
-            mouse.isMouseDown = true;
-            mouse.OnMouseDown();
+            this.isMouseDown = true;
         });
     
         window.addEventListener("mouseup", (e) => {
-            mouse.isMouseDown = false;
-            mouse.OnMouseUp();
+            this.isMouseDown = false;
         });
-    
-        return mouse;
     }
 
-    public OnMouseDown(){
-        throw new Error("OnMouseDown not implemented");
+    public addEvent(event: string, callback: (this: Window, ev: MouseEvent) => any){
+        switch(event){
+            case "mousedown":
+                window.addEventListener("mousedown", callback);
+                break;
+            case "mouseup":
+                window.addEventListener("mouseup", callback);
+                break;
+            case "mousemove":
+                window.addEventListener("mousemove", callback);
+                break;
+            default:
+                throw new Error(`Unknown event: ${event}`);
+        }
     }
 
-    public OnMouseUp() {
-        throw new Error("OnMouseUp not implemented");
-    }
-
-    public OnMouseMove() {
-        throw new Error("OnMouseMove not implemented");
-    }
 }
 
-export const MOUSE: Mouse = Mouse.Initiate();
+export const MOUSE: Mouse = new Mouse();

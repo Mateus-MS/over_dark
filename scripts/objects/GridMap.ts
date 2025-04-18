@@ -1,32 +1,28 @@
-import { Vector } from "../math/Vector.js";
+import { GridCoordinate, ScreenCoordinate } from "../engine/types/Coordinates.js";
 import { DRAW } from "../test.js";
 
-export class GridMap{
-    public col: number;
-    public row: number;
-    public size: number = 60;
+// BUG: If the gris is ODD, may the cells not be centered in the screen, and the hover effect will be off by half a cell.
 
-    private position: Vector = new Vector(window.innerWidth / 2, window.innerHeight / 2);
+export class GridMap{
+    public dimensions: GridCoordinate;
+    public size: number = 40;
+
+    public offset: ScreenCoordinate = new ScreenCoordinate(0, 0);
 
     constructor(col: number, row: number){
-        this.col = col;
-        this.row = row;
+        this.dimensions = new GridCoordinate(col, row);
+        this.dimensions.calcHalf();
     }
 
-    public selectedCell: Vector | undefined = undefined as Vector | undefined;
+    public selectedCell: GridCoordinate | undefined = undefined as GridCoordinate | undefined;
 
     public render(){
-        let startX = this.position.x - (this.col * this.size) / 2;
-        let startY = this.position.y - (this.row * this.size) / 2;
+        if (this.dimensions.half === undefined) return;
 
-        for(let i = 0; i < this.col; i++){
-            for(let j = 0; j < this.row; j++){
-                DRAW.Rectangle(
-                    new Vector(
-                        startX + i * this.size,
-                        startY + j * this.size
-                    ), 
-                    this.size, 
+        for(let i = -this.dimensions.half.x; i < this.dimensions.half.x; i++){
+            for(let j = -this.dimensions.half.y; j < this.dimensions.half.y; j++){
+                DRAW.squareOnGrid(
+                    new GridCoordinate(i, j),
                     this.size, 
                     "transparent",
                     "black", 
@@ -34,10 +30,8 @@ export class GridMap{
                 )
             }
         }
-    }
 
-    public convertToGridCoordinates(position: Vector, halfDimensions: Vector): Vector{
-        return position.subtract(halfDimensions).divide(this.size).rounded as Vector
+        
     }
 
 }

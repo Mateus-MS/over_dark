@@ -1,26 +1,34 @@
 export class Vector {
-    constructor(public x: number, public y: number) {
+
+    public x: number;
+    public y: number;
+    public half: Vector | undefined = undefined as Vector | undefined;
+
+    public static zero(): Vector {
+        return new Vector(0, 0);
+    }
+
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
     }
 
-    public add(number: number): Vector;
-    public add(vector: Vector): Vector;
-    public add(data: unknown): Vector {
+    public add<T>(data: T, b: number | undefined = undefined as number | undefined): T{
         if(typeof data === "number") {
-            return new Vector(this.x + data, this.y + data);
+            if(b !== undefined) {
+                return new Vector(this.x + data, this.y + b) as T;
+            }
+            return new Vector(this.x + data, this.y + data) as T;
         }
 
         if(data instanceof Vector) {
-            return new Vector(this.x + data.x, this.y + data.y);
+            return new Vector(this.x + data.x, this.y + data.y) as T;
         }
 
         throw new Error("Invalid argument type. Expected number or Vector.");
     }
 
-    public subtract(number: number): Vector;
-    public subtract(Vector: Vector): Vector;
-    public subtract(data: unknown): Vector {
+    public subtract<T>(data: T): Vector{
         if(typeof data === "number") {
             return new Vector(this.x - data, this.y - data);
         }
@@ -32,9 +40,7 @@ export class Vector {
         throw new Error("Invalid argument type. Expected number or Vector.");
     }
 
-    public divide(vector: Vector): Vector;
-    public divide(number: number): Vector;
-    public divide(data: unknown): Vector {
+    public divide<T>(data: T): Vector{
         if(typeof data === "number") {
             return new Vector(this.x / data, this.y / data);
         }
@@ -46,9 +52,7 @@ export class Vector {
         throw new Error("Invalid argument type. Expected number or Vector.");
     }
 
-    public multiply(vector: Vector): Vector;
-    public multiply(number: number): Vector;
-    public multiply(data: unknown): Vector {
+    public multiply<T>(data: T): Vector{
         if(typeof data === "number") {
             return new Vector(this.x * data, this.y * data);
         }
@@ -72,11 +76,32 @@ export class Vector {
         return this.x === vector.x && this.y === vector.y;
     }
 
-    public get rounded(): Vector {
-        return new Vector(Math.round(this.x), Math.round(this.y));
+    public calcHalf() {
+        this.half = new Vector(this.x / 2, this.y / 2);
     }
 
-    public get half(): Vector {
+    public getHalf(save: boolean = false): Vector {
+        // If hald is already calculated, return it
+        if (this.half !== undefined) {
+            return this.half;
+        }
+        
+        // If save is true, save the half value then return it
+        if(save){
+            this.half = new Vector(this.x / 2, this.y / 2);
+            return this.half;
+        }
+
+        // If save is false, return the half value without saving it
         return new Vector(this.x / 2, this.y / 2);
     }
+
+    public getFloor(): Vector {
+        return new Vector(Math.floor(this.x), Math.floor(this.y));
+    }
+
+    public getRounded(): Vector {
+        return new Vector(Math.round(this.x), Math.round(this.y));
+    }
+    
 }

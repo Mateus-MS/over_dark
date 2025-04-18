@@ -1,11 +1,11 @@
 import { Vector } from "../math/Vector.js"
 import { DRAW } from "../test.js";
 
+export const SCREENSIZE: Vector = new Vector(window.innerWidth, window.innerHeight);
+SCREENSIZE.calcHalf();
+
 export class Engine {
 
-    public dimensions: Vector = new Vector(window.innerWidth, window.innerHeight);
-    public halfDimensions: Vector = this.dimensions.half;
-    
     private canvas: HTMLCanvasElement;
     public c: CanvasRenderingContext2D | null;
     private updateLoopInterval: number | null = null;
@@ -26,6 +26,9 @@ export class Engine {
         // Set up the canvas sie
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
+
+        this.Start();
+        this.StartUpdate();
     }
 
     public StartUpdate(){

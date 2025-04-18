@@ -1,6 +1,23 @@
+import { SCREENSIZE } from "../engine/Engine.js";
 export class Draw {
     constructor(context) {
         this.c = context;
+    }
+    squareOnGrid(position, size, color = "black", borderColor, borderWidth = 0) {
+        if (SCREENSIZE.half === undefined)
+            return;
+        this.c.beginPath();
+        this.c.fillStyle = color;
+        if (borderColor) {
+            this.c.strokeStyle = borderColor;
+        }
+        this.c.lineWidth = borderWidth;
+        this.c.rect(position.x * size + SCREENSIZE.half.x, position.y * size + SCREENSIZE.half.y, size, size);
+        this.c.fill();
+        if (borderWidth > 0) {
+            this.c.stroke();
+        }
+        this.c.closePath();
     }
     Line(pa, pb, color = "black", width = 1) {
         this.c.beginPath();
