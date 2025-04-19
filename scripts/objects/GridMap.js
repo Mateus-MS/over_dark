@@ -5,7 +5,6 @@ export class GridMap {
     constructor(col, row) {
         this.size = 40;
         this.offset = new ScreenCoordinate(0, 0);
-        this.selectedCell = undefined;
         this.dimensions = new GridCoordinate(col, row);
         this.dimensions.calcHalf();
     }

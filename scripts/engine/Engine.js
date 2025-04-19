@@ -48,9 +48,11 @@ export class Engine {
         }
         this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.showFPS) {
-            DRAW.Text("FPS: " + this.LastFPS, new Vector(10, 25));
+            DRAW.Text("FPS: " + this.LastFPS, new Vector(20, 35));
         }
         this.Update();
     }
-    Start() { }
+    Start() {
+        throw new Error("Start method not implemented");
+    }
 }

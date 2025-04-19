@@ -55,6 +55,9 @@ export class Vector {
     equalsTo(vector) {
         return this.x === vector.x && this.y === vector.y;
     }
+    differentTo(vector) {
+        return this.x !== vector.x || this.y !== vector.y;
+    }
     calcHalf() {
         this.half = new Vector(this.x / 2, this.y / 2);
     }

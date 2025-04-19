@@ -60,10 +60,11 @@ export class Draw {
         }
         this.c.closePath();
     }
-    Text(text, position, color = "black", fontSize = 16, fontFamily = "Arial") {
+    Text(text, position, color = "black", fontSize = 16, fontFamily = "Arial", alignment = "left") {
         this.c.beginPath();
         this.c.font = "20px Arial";
         this.c.fillStyle = color;
+        this.c.textAlign = alignment;
         this.c.fillText(text, position.x, position.y);
         this.c.closePath();
     }

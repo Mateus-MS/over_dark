@@ -13,8 +13,6 @@ export class GridMap{
         this.dimensions.calcHalf();
     }
 
-    public selectedCell: GridCoordinate | undefined = undefined as GridCoordinate | undefined;
-
     public render(){
         if (this.dimensions.half === undefined) return;
 

@@ -76,6 +76,10 @@ export class Vector {
         return this.x === vector.x && this.y === vector.y;
     }
 
+    public differentTo(vector: Vector): boolean {
+        return this.x !== vector.x || this.y !== vector.y;
+    }
+
     public calcHalf() {
         this.half = new Vector(this.x / 2, this.y / 2);
     }

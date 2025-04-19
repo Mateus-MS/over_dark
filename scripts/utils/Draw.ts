@@ -72,10 +72,11 @@ export class Draw{
         this.c.closePath();
     }
 
-    public Text(text: string, position: Vector, color: string = "black", fontSize: number = 16, fontFamily: string = "Arial"){
+    public Text(text: string, position: Vector, color: string = "black", fontSize: number = 16, fontFamily: string = "Arial", alignment: CanvasTextAlign = "left"){
         this.c.beginPath();
         this.c.font = "20px Arial";
         this.c.fillStyle = color;
+        this.c.textAlign = alignment;
         this.c.fillText(text, position.x, position.y);
         this.c.closePath();
     }
