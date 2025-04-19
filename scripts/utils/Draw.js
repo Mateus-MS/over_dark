@@ -3,7 +3,7 @@ export class Draw {
     constructor(context) {
         this.c = context;
     }
-    squareOnGrid(position, size, color = "black", borderColor, borderWidth = 0) {
+    squareOnGrid(position, size, color = "black", borderColor, borderWidth = 0, offset) {
         if (SCREENSIZE.half === undefined)
             return;
         this.c.beginPath();
@@ -12,7 +12,11 @@ export class Draw {
             this.c.strokeStyle = borderColor;
         }
         this.c.lineWidth = borderWidth;
-        this.c.rect(position.x * size + SCREENSIZE.half.x, position.y * size + SCREENSIZE.half.y, size, size);
+        let pos = position.toScreenCoordinate(size);
+        if (offset !== undefined) {
+            pos = pos.add(offset);
+        }
+        this.c.rect(pos.x, pos.y, size, size);
         this.c.fill();
         if (borderWidth > 0) {
             this.c.stroke();

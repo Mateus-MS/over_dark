@@ -1,6 +1,6 @@
+import { Collision } from "../engine/Collision.js";
 import { GridCoordinate, ScreenCoordinate } from "../engine/types/Coordinates.js";
 import { DRAW } from "../test.js";
-// BUG: If the gris is ODD, may the cells not be centered in the screen, and the hover effect will be off by half a cell.
 export class GridMap {
     constructor(col, row) {
         this.size = 40;
@@ -12,10 +12,16 @@ export class GridMap {
     render() {
         if (this.dimensions.half === undefined)
             return;
-        for (let i = -this.dimensions.half.x; i < this.dimensions.half.x; i++) {
-            for (let j = -this.dimensions.half.y; j < this.dimensions.half.y; j++) {
-                DRAW.squareOnGrid(new GridCoordinate(i, j), this.size, "transparent", "black", 3);
+        for (let i = -this.dimensions.half.x; i <= this.dimensions.half.x; i++) {
+            for (let j = -this.dimensions.half.y; j <= this.dimensions.half.y; j++) {
+                DRAW.squareOnGrid(new GridCoordinate(i, j), this.size, "transparent", "black", 3, this.offset);
             }
         }
+    }
+    isInBounds(coordinate) {
+        if (this.dimensions.half === undefined) {
+            throw new Error("GridMap dimensions are not set. Make sure to set them before using this method.");
+        }
+        return Collision.PointInSquare(coordinate, this.dimensions.half.multiply(-1), this.dimensions.x);
     }
 }

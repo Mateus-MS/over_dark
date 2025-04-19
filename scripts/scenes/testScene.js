@@ -13,7 +13,11 @@ export class TestScene extends Scene {
         // Select & unselect cells with mouse clicks
         MOUSE.addEvent("mouseup", () => {
             var _a;
-            let selectedCell = MOUSE.position.toGridCoordinate(this.Map.size);
+            let selectedCell = MOUSE.position.toGridCoordinate(this.Map.size, this.Map.offset);
+            // Check if the clicked cell is in bounds
+            if (!this.Map.isInBounds(selectedCell)) {
+                return;
+            }
             // if a cell is already selected, unselect it
             if ((_a = this.Map.selectedCell) === null || _a === void 0 ? void 0 : _a.equalsTo(selectedCell)) {
                 this.Map.selectedCell = undefined;
@@ -24,20 +28,16 @@ export class TestScene extends Scene {
         });
         // Highlight cells with mouse hover
         MOUSE.addEvent("mousemove", () => {
-            this.hoveredCell = MOUSE.position.toGridCoordinate(this.Map.size);
-            console.log(this.hoveredCell);
+            this.hoveredCell = MOUSE.position.toGridCoordinate(this.Map.size, this.Map.offset);
         });
     }
     Update() {
         if (this.Map.selectedCell !== undefined) {
-            DRAW.Rectangle(this.Map.selectedCell.toScreenCoordinate(this.Map.size), this.Map.size, this.Map.size, "rgba(0, 0, 255, .35)");
+            DRAW.squareOnGrid(this.Map.selectedCell, this.Map.size, "rgba(0, 0, 255, .35)", undefined, undefined, this.Map.offset);
         }
         if (this.hoveredCell !== undefined && this.Map.dimensions.half !== undefined) {
-            if (this.hoveredCell.x >= -this.Map.dimensions.half.x &&
-                this.hoveredCell.x < this.Map.dimensions.half.x &&
-                this.hoveredCell.y >= -this.Map.dimensions.half.y &&
-                this.hoveredCell.y < this.Map.dimensions.half.y) {
-                DRAW.squareOnGrid(this.hoveredCell, this.Map.size, "rgba(0, 0, 0, .35)");
+            if (this.Map.isInBounds(this.hoveredCell)) {
+                DRAW.squareOnGrid(this.hoveredCell, this.Map.size, "rgba(0, 0, 0, .35)", undefined, undefined, this.Map.offset);
             }
             ;
         }

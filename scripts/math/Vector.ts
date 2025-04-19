@@ -28,13 +28,13 @@ export class Vector {
         throw new Error("Invalid argument type. Expected number or Vector.");
     }
 
-    public subtract<T>(data: T): Vector{
+    public subtract<T>(data: T): T{
         if(typeof data === "number") {
-            return new Vector(this.x - data, this.y - data);
+            return new Vector(this.x - data, this.y - data) as T;
         }
 
         if(data instanceof Vector) {
-            return new Vector(this.x - data.x, this.y - data.y);
+            return new Vector(this.x - data.x, this.y - data.y) as T;
         }
 
         throw new Error("Invalid argument type. Expected number or Vector.");
